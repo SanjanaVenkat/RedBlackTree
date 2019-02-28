@@ -12,13 +12,17 @@ TreeNode* add(TreeNode* root, int num);
 void print(TreeNode* root, int level);
 TreeNode* remove(TreeNode* realroot, TreeNode* root, TreeNode* parent, int num, int lr);
 bool printlevel(TreeNode* root, int level, int startlevel);
+void redblackupdate(TreeNode* root, TreeNode* parent);
+
 
 //add to tree
 TreeNode* add(TreeNode* root, int num) {
   //root
+  char red[2] = "R";
+  char black[2] = "B";
   if (root == NULL) {
 
-    root = new TreeNode(num);
+    root = new TreeNode(num, black);
     return root;
   }
   //do nothing if number already exists
@@ -33,7 +37,7 @@ TreeNode* add(TreeNode* root, int num) {
     }
     else {
 
-      TreeNode* newleft = new TreeNode(num);
+      TreeNode* newleft = new TreeNode(num, black);
       root->setLeft(newleft);
       return newleft;
     }
@@ -46,7 +50,7 @@ TreeNode* add(TreeNode* root, int num) {
     }
     else {
 
-      TreeNode* newright = new TreeNode(num);
+      TreeNode* newright = new TreeNode(num, black);
       root->setRight(newright);
       return newright;
     }
@@ -72,7 +76,7 @@ bool printlevel(TreeNode* root, int level, int startlevel) {
   bool check = false;
   if (root != NULL) {
   if (startlevel == level) {
-    cout << root->getNumber() << " ";
+    cout << root->getNumber() << root->getRedBlack() << " ";
     check = true;
   }
   else {
@@ -238,6 +242,46 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 }
 
 
+
+
+void redblackupdate(TreeNode* root, TreeNode* parent) {
+  char black[2] = "B";
+  char red[2] = "R";
+  if (root != NULL) {
+  if (parent == NULL) {
+    root->setRedBlack(black);
+    if (root->getLeft() != NULL) {
+      redblackupdate(root->getLeft(), root);
+    }
+    if (root->getRight() != NULL) {
+      redblackupdate(root->getRight(), root);
+    }
+  }
+  else {
+    if (strcmp(parent->getRedBlack(), black) == 0) {
+    root->setRedBlack(red);
+    if (root->getLeft() != NULL) {
+      redblackupdate(root->getLeft(), root);
+    }
+    if (root->getRight() != NULL) {
+      redblackupdate(root->getRight(), root);
+    }
+    }
+    else {
+      root ->setRedBlack(black);
+      if (root->getLeft() != NULL) {
+	redblackupdate(root->getLeft(), root);
+      }
+      if (root->getRight() != NULL) {
+	redblackupdate(root->getRight(), root);
+      }
+    }
+  }
+  }
+
+}
+
+
 int main() {
   bool running = true;
   int response = 0;
@@ -262,12 +306,13 @@ int main() {
     cin >> num;
     if (root == NULL) {
 root = add(root, num);
-  }
+    }
   else {
     add(root, num);
   }
   counter++;
   }
+  redblackupdate(root, NULL);
     }
     //file
   else if (responset == 2) {

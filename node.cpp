@@ -4,10 +4,11 @@
 
 using namespace std;
 
-TreeNode::TreeNode(int n) {
+TreeNode::TreeNode(int n, char* rb) {
   left = NULL;
   right = NULL;
   number = n;
+  strcpy(redblack, rb);
 }
 
 TreeNode::~TreeNode() {
@@ -33,4 +34,12 @@ TreeNode* TreeNode::getRight() {
 
 int TreeNode::getNumber() {
   return number;
+}
+
+char* TreeNode::getRedBlack() {
+  return redblack;
+}
+
+void TreeNode::setRedBlack(char* rb) {
+  strcpy(redblack,rb);
 }
