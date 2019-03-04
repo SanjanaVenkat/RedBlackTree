@@ -13,7 +13,8 @@ void print(TreeNode* root, int level);
 TreeNode* remove(TreeNode* realroot, TreeNode* root, TreeNode* parent, int num, int lr);
 bool printlevel(TreeNode* root, int level, int startlevel);
 void redblackupdate(TreeNode* root, TreeNode* parent);
-
+void rotate_right(TreeNode* root, TreeNode* current);
+TreeNode* getParent(TreeNode* root, int current);
 
 //add to tree
 TreeNode* add(TreeNode* root, int num) {
@@ -82,10 +83,11 @@ bool printlevel(TreeNode* root, int level, int startlevel) {
   else {
     if (root->getLeft() != NULL) {
       check = printlevel(root->getLeft(), level, startlevel+1);
-
+      //    cout << " ";
     }
     
     if (root->getRight() != NULL) {
+      //cout << " ";
       check = printlevel(root->getRight(), level, startlevel+1);
     }
 
@@ -241,6 +243,59 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 
 }
 
+
+TreeNode* getParent(TreeNode* root, int current) {
+  if (root == NULL) {
+  TreeNode* parent = NULL;
+    return parent;
+  }
+  else {
+    while (root->getNumber() != current) {
+      if (root->getLeft()->getNumber() == current) {
+	TreeNode* parent = root;
+	return parent;
+      }
+      else {
+	root = root->getLeft();
+      }
+      if (root->getRight()->getNumber() == current) {
+	TreeNode* parent = root;
+	return parent;
+      }
+      else {
+	root = root->getRight();
+      }
+
+    }
+
+  }
+
+
+}
+
+
+void rotate_right(TreeNode* root, TreeNode* current)  {
+  TreeNode* newcurrent = current->getLeft();
+  TreeNode* parent = getParent(root, current->getNumber());
+  current->setLeft(newcurrent->getRight());
+  newcurrent->setRight(current);
+  parent = newcurrent;
+  if (current->getLeft() != NULL) {
+    TreeNode* holdparent = getParent(root, current->getLeft()->getNumber());
+    holdparent = current;
+  }
+  if (parent != NULL)  {
+    if (current == parent->getLeft()) {
+      parent->setLeft(newcurrent);
+    }
+    else if (current == parent->getRight()) {
+      parent->setRight(newcurrent);
+    }
+    TreeNode* holdparent2 = getParent(root, newcurrent->getNumber());
+   holdparent2 = parent;
+  }
+
+}
 
 
 
