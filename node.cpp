@@ -43,3 +43,46 @@ char* TreeNode::getRedBlack() {
 void TreeNode::setRedBlack(char* rb) {
   strcpy(redblack,rb);
 }
+
+TreeNode* TreeNode::getParent(TreeNode* root, int current) {
+  if (root == NULL) {
+     parent = NULL;
+    return parent;
+  }
+  else {
+    while (root->getNumber() != current) {
+      if (root->getLeft()->getNumber() == current) {
+	cout << "Case1" << endl;
+	parent = root;
+	return parent;
+      }
+    else if (root->getRight()->getNumber() == current) {
+      cout << "Case2" << endl;
+      parent = root;
+	return parent;
+      }
+    else if (root->getLeft() != NULL) {
+      cout << "Case3" << endl;
+      root = root->getLeft();
+      }
+    else if (root->getLeft() != NULL) {
+      cout << "Case4" << endl;
+      root = root->getRight();
+      }
+    else if (root->getRight() != NULL && root->getLeft() == NULL) {
+      cout << "Case5" << endl;
+      root = root->getRight();
+    }
+    else if (root->getLeft() != NULL && root->getRight() == NULL) {
+      cout << "Case6" << endl;
+      root = root->getLeft();
+    }
+    else {
+      cout << "Case7" << endl;
+    }
+    }
+    cout << "Fallen out of while loop" << endl;
+   }
+
+  
+}

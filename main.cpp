@@ -243,7 +243,7 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 
 }
 
-
+/*
 TreeNode* getParent(TreeNode* root, int current) {
   if (root == NULL) {
   TreeNode* parent = NULL;
@@ -272,16 +272,17 @@ TreeNode* getParent(TreeNode* root, int current) {
 
 
 }
+*/
 
 
 void rotate_right(TreeNode* root, TreeNode* current)  {
   TreeNode* newcurrent = current->getLeft();
-  TreeNode* parent = getParent(root, current->getNumber());
+  TreeNode* parent = current->getParent(root, current->getNumber());
   current->setLeft(newcurrent->getRight());
   newcurrent->setRight(current);
   parent = newcurrent;
   if (current->getLeft() != NULL) {
-    TreeNode* holdparent = getParent(root, current->getLeft()->getNumber());
+    TreeNode* holdparent = current->getLeft()->getParent(root, current->getLeft()->getNumber());
     holdparent = current;
   }
   if (parent != NULL)  {
@@ -291,7 +292,7 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
     else if (current == parent->getRight()) {
       parent->setRight(newcurrent);
     }
-    TreeNode* holdparent2 = getParent(root, newcurrent->getNumber());
+    TreeNode* holdparent2 = current->getRight()->getParent(root, newcurrent->getNumber());
    holdparent2 = parent;
   }
 
@@ -340,7 +341,7 @@ void redblackupdate(TreeNode* root, TreeNode* parent) {
 int main() {
   bool running = true;
   int response = 0;
-  cout << "Enter 1 for add, 2 for print, 3 for delete" << endl;
+  cout << "Enter 1 for add, 2 for print, 3 for delete, 4 to find parent of a node" << endl;
   cin >> response;
   TreeNode* root = NULL;
   while (running != false) {
@@ -396,7 +397,7 @@ root = add(root, num);
   //print
   if (response == 2) {
     cout << "Tree:" << endl;
-    print(root, 0);
+     print(root, 0);
  cout << "Enter 1 for add, 2 for print, and 3 for delete" << endl;
   cin >> response;
   }
@@ -417,6 +418,15 @@ root = add(root, num);
    cout << "Enter 1 for add, 2 for print, and 3 for delete" << endl;
   cin >> response;
 
+  }
+  if (response == 4) {
+    int current = 0;
+    cout << "Enter node to find parent of" << endl;
+    cin >> current;
+   TreeNode* holder = root->getParent(root, current);
+   cout << holder->getNumber() << endl;
+   cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
+   cin >> response;
   }
   }
   if (response != 1 && response != 2 && response != 3) {
