@@ -61,19 +61,19 @@ TreeNode* TreeNode::getParent(TreeNode* root, int current) {
       parent = root;
 	return parent;
       }
-    else if (root->getLeft() != NULL) {
+    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL) {
       cout << "Case3" << endl;
       root = root->getLeft();
       }
-    else if (root->getLeft() != NULL) {
+    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL) {
       cout << "Case4" << endl;
       root = root->getRight();
       }
-    else if (root->getRight() != NULL && root->getLeft() == NULL) {
+    else if (root->getLeft()->getNumber() != current&& root->getRight()->getNumber() != current && root->getRight() != NULL && root->getLeft() == NULL) {
       cout << "Case5" << endl;
       root = root->getRight();
     }
-    else if (root->getLeft() != NULL && root->getRight() == NULL) {
+    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL && root->getRight() == NULL) {
       cout << "Case6" << endl;
       root = root->getLeft();
     }
