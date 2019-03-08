@@ -278,6 +278,7 @@ TreeNode* getParent(TreeNode* root, int current) {
 void rotate_right(TreeNode* root, TreeNode* current)  {
   TreeNode* newcurrent = current->getLeft();
   TreeNode* parent = current->getParent(root, current->getNumber());
+  if (newcurrent != NULL) {
   current->setLeft(newcurrent->getRight());
   newcurrent->setRight(current);
   parent = newcurrent;
@@ -295,10 +296,32 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
     TreeNode* holdparent2 = current->getRight()->getParent(root, newcurrent->getNumber());
    holdparent2 = parent;
   }
-
+  }
 }
 
-
+void rotate_left(TreeNode* root, TreeNode* current) {
+  TreeNode* newcurrent = current->getRight();
+  TreeNode* parent = current->getParent(root, current->getNumber());
+  if (newcurrent != NULL) {
+  current->setRight(newCurrent->getLeft());
+  newcurrent->setLeft(current);
+  parent = newcurrent;
+  if (current->getRight() != NULL) {
+    TreeNode* holdparent = current->getRight()->getParent(root, current->getLeft()->getNumber());
+    holdparent = current;
+  }
+  if (parent != NULL) {
+    if (current == parent->getRight()) {
+      parent->setRight(newcurrent);
+    }
+    else if (current == parent->getLeft()) {
+      parent->setLeft(newcurrent);
+    }
+    TreeNode* holdparent2 = current->getLeft()->getParent(root, newcurrent->getNumber());
+    holdparent2 = parent;
+  }
+  }
+}
 
 void redblackupdate(TreeNode* root, TreeNode* parent) {
   char black[2] = "B";
@@ -391,14 +414,14 @@ root = add(root, num);
 
   }
   
-   cout << "Enter 1 for add, 2 for print, and 3 for delete" << endl;
+   cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
   cin >> response;
   }
   //print
   if (response == 2) {
     cout << "Tree:" << endl;
      print(root, 0);
- cout << "Enter 1 for add, 2 for print, and 3 for delete" << endl;
+ cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
   cin >> response;
   }
   //delete
@@ -415,7 +438,7 @@ root = add(root, num);
        delcounter = delcounter + 1;
       }
   cout << "Done deleting" << endl;
-   cout << "Enter 1 for add, 2 for print, and 3 for delete" << endl;
+   cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
   cin >> response;
 
   }
