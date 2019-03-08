@@ -51,38 +51,47 @@ TreeNode* TreeNode::getParent(TreeNode* root, int current) {
   }
   else {
     while (root->getNumber() != current) {
+      //cout << "Test" << endl;
+      if (root->getLeft() != NULL) {
       if (root->getLeft()->getNumber() == current) {
-	cout << "Case1" << endl;
+	//cout << "Case1" << endl;
 	parent = root;
 	return parent;
       }
-    else if (root->getRight()->getNumber() == current) {
-      cout << "Case2" << endl;
+      }
+      if (root->getRight() != NULL) {
+     if (root->getRight()->getNumber() == current) {
+       //cout << "Case2" << endl;
       parent = root;
 	return parent;
+    }
       }
-    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL) {
-      cout << "Case3" << endl;
+      
+     if (root->getLeft() != NULL && root->getNumber() > current) {
+       // cout << "Case3" << endl;
       root = root->getLeft();
       }
-    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL) {
-      cout << "Case4" << endl;
+    else if (root->getRight() != NULL && root->getNumber() < current) {
+      // cout << "Case4" << endl;
       root = root->getRight();
-      }
-    else if (root->getLeft()->getNumber() != current&& root->getRight()->getNumber() != current && root->getRight() != NULL && root->getLeft() == NULL) {
+    }
+    
+      /*
+    else if (root->getLeft()->getNumber() != current && root->getRight() != NULL && root->getLeft() == NULL) {
       cout << "Case5" << endl;
       root = root->getRight();
     }
-    else if (root->getLeft()->getNumber() != current && root->getRight()->getNumber() != current && root->getLeft() != NULL && root->getRight() == NULL) {
+    else if (root->getRight()->getNumber() != current && root->getLeft() != NULL && root->getRight() == NULL) {
       cout << "Case6" << endl;
       root = root->getLeft();
     }
+       */
     else {
-      cout << "Case7" << endl;
+      //   cout << "Case7" << endl;
     }
     }
-    cout << "Fallen out of while loop" << endl;
-   }
+    //cout << "Fallen out of while loop" << endl;
+    
 
-  
+  }
 }
