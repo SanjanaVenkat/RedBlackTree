@@ -15,7 +15,7 @@ class TreeNode {
   int getNumber();
   char* getRedBlack();
   void setRedBlack(char* rb);
-  TreeNode* getParent(TreeNode* root, int current);
+  TreeNode* getParent(TreeNode* root, int current, int willoutput);
  private:
   TreeNode* left;
   TreeNode* right;

@@ -44,7 +44,7 @@ void TreeNode::setRedBlack(char* rb) {
   strcpy(redblack,rb);
 }
 
-TreeNode* TreeNode::getParent(TreeNode* root, int current) {
+TreeNode* TreeNode::getParent(TreeNode* root, int current, int willoutput) {
   if (root == NULL) {
      parent = NULL;
     return parent;
@@ -56,6 +56,9 @@ TreeNode* TreeNode::getParent(TreeNode* root, int current) {
       if (root->getLeft()->getNumber() == current) {
 	//cout << "Case1" << endl;
 	parent = root;
+	if (willoutput == 4) {
+	  cout << "I am the left child of ";
+	}
 	return parent;
       }
       }
@@ -63,6 +66,9 @@ TreeNode* TreeNode::getParent(TreeNode* root, int current) {
      if (root->getRight()->getNumber() == current) {
        //cout << "Case2" << endl;
       parent = root;
+      if (willoutput == 4) {
+	cout << "I am the right child of ";
+      }
 	return parent;
     }
       }

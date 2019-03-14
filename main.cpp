@@ -8,162 +8,168 @@
 
 using namespace std;  
 //functions
-TreeNode* add(TreeNode* root, int num);
 void print(TreeNode* root, int level);
 TreeNode* remove(TreeNode* realroot, TreeNode* root, TreeNode* parent, int num, int lr);
 bool printlevel(TreeNode* root, int level, int startlevel);
 void redblackupdate(TreeNode* root, TreeNode* parent);
 void rotate_right(TreeNode* root, TreeNode* current);
 void insertrecursive(TreeNode* root, TreeNode* n);
-void insertrepairtree(TreeNode* root, TreeNode* current);
-void case1(TreeNode* current, TreeNode* root);
-void case2(TreeNode* current);
+TreeNode* insertrepairtree(TreeNode* root, TreeNode* current);
+TreeNode* case1(TreeNode* current, TreeNode* root);
+void case2(TreeNode* current, TreeNode* root);
 void case3(TreeNode* current, TreeNode* uncle, TreeNode* root);
 //void case4(TreeNode* current);
 TreeNode* insert(TreeNode* root, int current);
 
 //add to tree
-TreeNode* add(TreeNode* root, int num) {
-  //root
-  char red[2] = "R";
-  char black[2] = "B";
-  if (root == NULL) {
-
-    root = new TreeNode(num, black);
-    return root;
-  }
-  //do nothing if number already exists
-  else if (root->getNumber() == num) {
-    
-  }
-  //less, add left
-  else if (num < root->getNumber()) {
-
-    if (root->getLeft() != NULL) {
-    add(root->getLeft(), num);
-    }
-    else {
-
-      TreeNode* newleft = new TreeNode(num, black);
-      root->setLeft(newleft);
-      return newleft;
-    }
-  }
-  //greater, add right
-  else if (num > root->getNumber()) {
-
-    if (root->getRight() != NULL) {
-    add(root->getRight(), num);
-    }
-    else {
-
-      TreeNode* newright = new TreeNode(num, black);
-      root->setRight(newright);
-      return newright;
-    }
-  }
-  
-}
 
 TreeNode* insert(TreeNode* root, int current) {
+
   char black[2] = "B";
   TreeNode* n = new TreeNode(current, black);
   insertrecursive(root, n);
-  cout << "Test1" << endl;
-  insertrepairtree(root, n);
-  cout << "Test3" << endl;
-  root = n;
-  while (root->getParent(root, root->getNumber()) != NULL) {
-      root = root->getParent(root, root->getNumber());
+
+  //  cout << "Test1" << endl;
+  root = insertrepairtree(root, n);
+  //cout << "Test3" << endl;
+  while (root->getParent(root, root->getNumber(), 0) != NULL) {
+    root = root->getParent(root, root->getNumber(), 0);
       return root;
     }
+  return root;
 }
 
-void insertrepairtree(TreeNode* root, TreeNode* current) {
-  cout << "Test2" << endl;
-  if (current->getParent(root, current->getNumber()) == NULL) {
-    cout << "Test4" << endl;
-    case1(current, root);
-  }
-  else if (strcmp(current->getParent(root, current->getNumber())->getRedBlack(), "B") == 0) {
-    case2(current);
-  }
-  TreeNode* parent = current->getParent(root, current->getNumber());
-  TreeNode* grandparent = parent->getParent(root, parent->getNumber());
+
+TreeNode* insertrepairtree(TreeNode* root, TreeNode* current) {
+   
+   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
+  TreeNode* grandparent;
+   if (parent != NULL) {
+   
+    grandparent = parent->getParent(root, parent->getNumber(), 0);
+     }
   TreeNode* uncle;
-  if (grandparent->getLeft() == current->getParent(root, current->getNumber())) {
-    if (grandparent->getRight() != NULL) {
-      uncle = grandparent->getRight();
-    }
-    else {
-      uncle = NULL;
-    }
+  if (parent != NULL) {
+  if (grandparent != NULL) {
+    if (grandparent->getLeft() == current->getParent(root, current->getNumber(), 0)) {
+	if (grandparent->getRight() != NULL) {
+
+	  uncle = grandparent->getRight();
+	}
+	else {
+	  uncle = NULL;
+	}
+      }
+    else if (grandparent->getRight() == current->getParent(root, current->getNumber(), 0)) {
+	if (grandparent->getLeft() != NULL) {
+	  uncle = grandparent->getLeft();
+	}
+	else {
+	  uncle = NULL;
+	}
+	  }
+	 }
   }
-    else if (grandparent->getRight() == current->getParent(root, current->getNumber())) {
-      if (grandparent->getLeft() != NULL) {
-      uncle = grandparent->getLeft();
-    }
-      else {
-	uncle = NULL;
-      }
-      }
+  if (current->getParent(root, current->getNumber(), 0) == NULL) {
+    //cout << "Test4" << endl;
+    root = case1(current, root);
+    return root;
+    //    cout << "Test8" << endl;
+  }
+  //cout << "Test9" << endl;
+  else if (strcmp(current->getParent(root, current->getNumber(), 0)->getRedBlack(), "B") == 0) {
+
+    case2(current, root);
+  }
+  
     else if (uncle != NULL && strcmp(uncle->getRedBlack(), "R") == 0) {
+
       case3(current, uncle, root);
     }
+  /*
     else {
     }
+   */
   }
 
 
-void case1(TreeNode* current, TreeNode* root) {
-  if(current->getParent(root, current->getNumber()) == NULL) {
-    cout << "Test5" << endl;
+TreeNode* case1(TreeNode* current, TreeNode* root) {
+  if(current->getParent(root, current->getNumber(), 0) == NULL) {
+    //cout << "Test5" << endl;
     char black[2] = "B";
     current->setRedBlack(black);
-    cout << "Test6" << endl;
-    return;
+    //cout << "Test6" << endl;
+    return current;
     }
   }
 
-void case2(TreeNode* current) {
-  return;
+
+void case2(TreeNode* current, TreeNode* root) {
+
+  TreeNode* p = current->getParent(root, current->getNumber(), 0);
+  char red[2] = "R";
+  if (strcmp(p->getRedBlack(), "B") == 0) {
+    if (p->getNumber() > current->getNumber()) {
+      p->setLeft(current);
+    }
+    else if (p->getNumber() < current->getNumber()) {
+      p->setRight(current);
+      current->setRedBlack(red);
+    }
+  }
 }
 
 void case3(TreeNode* current, TreeNode* uncle, TreeNode* root) {
   char black[2] = "B";
   char red[2] = "R";
-  current->getParent(root, current->getNumber())->setRedBlack(black);
+  current->getParent(root, current->getNumber(), 0)->setRedBlack(black);
   uncle->setRedBlack(black);
-  TreeNode* parent = current->getParent(root, current->getNumber());
-  TreeNode* grandparent = current->getParent(root, parent->getNumber());
+  TreeNode* parent = current->getParent(root, current->getNumber(), 0);
+  TreeNode* grandparent = current->getParent(root, parent->getNumber(), 0);
   grandparent->setRedBlack(red);
   insertrepairtree(root, grandparent);
 }
 
   
 void insertrecursive(TreeNode* root, TreeNode* n) {
+
   char black[2] = "B";
   char red[2] = "R";
   TreeNode* newnode = n;
   if (root != NULL && newnode->getNumber() < root->getNumber()) {
-    if (root->getLeft()->getLeft() != NULL && root->getLeft()->getRight() != NULL) {
-    insertrecursive(root->getLeft(), newnode);
+
+    if (root->getLeft() != NULL) {
+    if (root->getLeft()->getLeft() == NULL) {
+
+      insertrecursive(root->getLeft(), newnode);
     return;
     }
-  
+    }
   else {
+
     root->setLeft(newnode);
   }
+    
+    //cout << "D" << endl;
   }
-    else if (root != NULL) {
-      if (root->getRight()->getRight() != NULL && root->getRight()->getRight() != NULL) {
+  else if (root != NULL && newnode->getNumber() > root->getNumber()) {
+
+      if (root->getRight() != NULL) {
+
+      if (root->getRight()->getRight() == NULL) {
+
 	insertrecursive(root->getRight(), newnode);
       }
+      }
       else {
+
 	root->setRight(newnode);
       }
+      
     }
-  
+  else {
+
+  }
 newnode->setRedBlack(red);
 }
 
@@ -355,13 +361,13 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 
 void rotate_right(TreeNode* root, TreeNode* current)  {
   TreeNode* newcurrent = current->getLeft();
-  TreeNode* parent = current->getParent(root, current->getNumber());
+  TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   if (newcurrent->getLeft() != NULL && newcurrent->getRight() != NULL) {
   current->setLeft(newcurrent->getRight());
   newcurrent->setRight(current);
   parent = newcurrent;
   if (current->getLeft() != NULL) {
-    TreeNode* holdparent = current->getLeft()->getParent(root, current->getLeft()->getNumber());
+    TreeNode* holdparent = current->getLeft()->getParent(root, current->getLeft()->getNumber(), 0);
     holdparent = current;
   }
   if (parent != NULL)  {
@@ -371,7 +377,7 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
     else if (current == parent->getRight()) {
       parent->setRight(newcurrent);
     }
-    TreeNode* holdparent2 = current->getRight()->getParent(root, newcurrent->getNumber());
+    TreeNode* holdparent2 = current->getRight()->getParent(root, newcurrent->getNumber(), 0);
    holdparent2 = parent;
   }
   }
@@ -379,13 +385,13 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
 
 void rotate_left(TreeNode* root, TreeNode* current) {
   TreeNode* newcurrent = current->getRight();
-  TreeNode* parent = current->getParent(root, current->getNumber());
+  TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   if (newcurrent->getLeft() != NULL && newcurrent->getRight()) {
   current->setRight(newcurrent->getLeft());
   newcurrent->setLeft(current);
   parent = newcurrent;
   if (current->getRight() != NULL) {
-    TreeNode* holdparent = current->getRight()->getParent(root, current->getLeft()->getNumber());
+    TreeNode* holdparent = current->getRight()->getParent(root, current->getLeft()->getNumber(), 0);
     holdparent = current;
   }
   if (parent != NULL) {
@@ -395,7 +401,7 @@ void rotate_left(TreeNode* root, TreeNode* current) {
     else if (current == parent->getLeft()) {
       parent->setLeft(newcurrent);
     }
-    TreeNode* holdparent2 = current->getLeft()->getParent(root, newcurrent->getNumber());
+    TreeNode* holdparent2 = current->getLeft()->getParent(root, newcurrent->getNumber(), 0);
     holdparent2 = parent;
   }
   }
@@ -469,7 +475,7 @@ root = insert(root, num);
   }
   counter++;
   }
-  redblackupdate(root, NULL);
+  //  redblackupdate(root, NULL);
     }
     //file
   else if (responset == 2) {
@@ -483,10 +489,10 @@ root = insert(root, num);
     while (inData >> num) {
       datanum = num;
       if (root == NULL) {
-	root = add(root, datanum);
+	//	root = add(root, datanum);
       }
       else {
-	add(root, datanum);
+	//add(root, datanum);
       }
     }
 
@@ -524,7 +530,7 @@ root = insert(root, num);
     int current = 0;
     cout << "Enter node to find parent of" << endl;
     cin >> current;
-   TreeNode* holder = root->getParent(root, current);
+    TreeNode* holder = root->getParent(root, current, 4);
    cout << holder->getNumber() << endl;
    cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
    cin >> response;
