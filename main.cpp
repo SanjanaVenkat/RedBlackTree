@@ -30,24 +30,28 @@ TreeNode* insert(TreeNode* root, int current) {
   insertrecursive(root, n);
 
   //  cout << "Test1" << endl;
+  // print(root, 0);
   root = insertrepairtree(root, n);
-  //cout << "Test3" << endl;
-  while (root->getParent(root, root->getNumber(), 0) != NULL) {
+  cout << "Root" << endl;
+  if (root != NULL && root->getParent(root, root->getNumber(), 0) != NULL) {
+    
+    while (root->getParent(root, root->getNumber(), 0) != NULL) {
+    
     root = root->getParent(root, root->getNumber(), 0);
-      return root;
+    // return root;
     }
+  }
   return root;
 }
 
 
 TreeNode* insertrepairtree(TreeNode* root, TreeNode* current) {
-   
+
    TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* grandparent;
    if (parent != NULL) {
-   
     grandparent = parent->getParent(root, parent->getNumber(), 0);
-     }
+   }
   TreeNode* uncle;
   if (parent != NULL) {
   if (grandparent != NULL) {
@@ -139,15 +143,18 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
   if (root != NULL && newnode->getNumber() < root->getNumber()) {
 
     if (root->getLeft() != NULL) {
-    if (root->getLeft()->getLeft() == NULL) {
-
+      TreeNode* left = root->getLeft();
+      if (left->getLeft() == NULL || left->getRight() == NULL) {
+  
       insertrecursive(root->getLeft(), newnode);
-    return;
+      //    cout << "Going left" << endl;
     }
     }
   else {
 
     root->setLeft(newnode);
+    //cout << "Left" << endl;
+    //return;
   }
     
     //cout << "D" << endl;
@@ -155,20 +162,22 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
   else if (root != NULL && newnode->getNumber() > root->getNumber()) {
 
       if (root->getRight() != NULL) {
-
-      if (root->getRight()->getRight() == NULL) {
-
+	TreeNode* right = root->getRight();
+	if (right->getRight() == NULL || right->getLeft() == NULL) {
+       
 	insertrecursive(root->getRight(), newnode);
-      }
+	//	cout << "Going right" << endl;
+	}
       }
       else {
-
 	root->setRight(newnode);
+	//cout << "Right" << endl;
+	//	return;
       }
       
     }
   else {
-
+    //    cout << "Test?" << endl;
   }
 newnode->setRedBlack(red);
 }
