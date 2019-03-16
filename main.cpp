@@ -24,7 +24,7 @@ TreeNode* insert(TreeNode* root, int current);
 //add to tree
 
 TreeNode* insert(TreeNode* root, int current) {
-
+  TreeNode* realroot = root;
   char black[2] = "B";
   TreeNode* n = new TreeNode(current, black);
   insertrecursive(root, n);
@@ -32,17 +32,19 @@ TreeNode* insert(TreeNode* root, int current) {
   //  cout << "Test1" << endl;
   // print(root, 0);
   root = insertrepairtree(root, n);
-  cout << "Root" << endl;
+  //cout << "Root" << endl;
   if (root != NULL && root->getParent(root, root->getNumber(), 0) != NULL) {
     
     while (root->getParent(root, root->getNumber(), 0) != NULL) {
     
     root = root->getParent(root, root->getNumber(), 0);
-    // return root;
+     return root;
     }
   }
   return root;
-}
+  
+
+  }
 
 
 TreeNode* insertrepairtree(TreeNode* root, TreeNode* current) {
@@ -146,7 +148,7 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
       TreeNode* left = root->getLeft();
       if (left->getLeft() == NULL || left->getRight() == NULL) {
   
-      insertrecursive(root->getLeft(), newnode);
+      insertrecursive(left, newnode);
       //    cout << "Going left" << endl;
     }
     }
@@ -160,25 +162,24 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
     //cout << "D" << endl;
   }
   else if (root != NULL && newnode->getNumber() > root->getNumber()) {
-
+    //cout << "Test" << endl;
       if (root->getRight() != NULL) {
 	TreeNode* right = root->getRight();
 	if (right->getRight() == NULL || right->getLeft() == NULL) {
        
-	insertrecursive(root->getRight(), newnode);
+	insertrecursive(right, newnode);
 	//	cout << "Going right" << endl;
 	}
       }
       else {
 	root->setRight(newnode);
+	//	cout << "Test2" << endl;
 	//cout << "Right" << endl;
 	//	return;
       }
       
-    }
-  else {
-    //    cout << "Test?" << endl;
   }
+
 newnode->setRedBlack(red);
 }
 
