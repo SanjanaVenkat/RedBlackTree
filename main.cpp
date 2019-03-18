@@ -12,8 +12,8 @@ void print(TreeNode* root, int level);
 TreeNode* remove(TreeNode* realroot, TreeNode* root, TreeNode* parent, int num, int lr);
 bool printlevel(TreeNode* root, int level, int startlevel);
 void redblackupdate(TreeNode* root, TreeNode* parent);
-void rotate_right(TreeNode* root, TreeNode* current);
-void rotate_left(TreeNode* root, TreeNode* current);
+TreeNode* rotate_right(TreeNode* root, TreeNode* current);
+TreeNode* rotate_left(TreeNode* root, TreeNode* current);
 void insertrecursive(TreeNode* root, TreeNode* n);
 TreeNode* insertrepairtree(TreeNode* root, TreeNode* current);
 TreeNode* case1(TreeNode* current, TreeNode* root);
@@ -36,8 +36,8 @@ TreeNode* insert(TreeNode* root, int current) {
   root = insertrepairtree(root, n);
   // cout << root->getNumber() << endl;
   //print(root, 0);
-  //cout << root->getNumber() << endl;
-  //print(root, 0);
+  cout << root->getNumber() << endl;
+  print(root, 0);
   //cout << "Root" << endl;
   /*if (root != NULL) {
     while (root->getParent(root, root->getNumber(), 0) != NULL) {
@@ -116,7 +116,7 @@ TreeNode* insertrepairtree(TreeNode* root, TreeNode* current) {
   }
 
 TreeNode* case4(TreeNode* current, TreeNode* root) {
-  
+  cout << "Case 4" << endl;
   TreeNode* p = current->getParent(root, current->getNumber(), 0);
   TreeNode* g = NULL;
   if (p != NULL) {
@@ -132,12 +132,13 @@ TreeNode* case4(TreeNode* current, TreeNode* root) {
     //cout << "Rotated right" << endl;
     current = current->getRight();
   }
-current =  case4_2(current, root);
- return current;
+TreeNode* hold = case4_2(current, root);
+ cout << hold->getNumber() << endl;
+ return hold;
 }
 
 TreeNode*  case4_2(TreeNode* current, TreeNode* root) {
-  //cout << "Case 4 part 2" << endl;
+  cout << "Case 4 part 2" << endl;
   char black[2] = "B";
   char red[2] = "R";
   TreeNode* p;
@@ -166,6 +167,7 @@ TreeNode*  case4_2(TreeNode* current, TreeNode* root) {
 
 
 TreeNode* case1(TreeNode* current, TreeNode* root) {
+  cout << "Case 1" << endl;
   if(current->getParent(root, current->getNumber(), 0) == NULL) {
     //cout << "Test5" << endl;
     char black[2] = "B";
@@ -177,6 +179,7 @@ TreeNode* case1(TreeNode* current, TreeNode* root) {
 
 
 TreeNode* case2(TreeNode* current, TreeNode* root) {
+  cout << "Case 2" << endl;
   TreeNode* p;
   if (current != NULL) {
    p = current->getParent(root, current->getNumber(), 0);
@@ -196,6 +199,7 @@ TreeNode* case2(TreeNode* current, TreeNode* root) {
 }
 
 void case3(TreeNode* current, TreeNode* uncle, TreeNode* root) {
+  cout << "Case 3" << endl;
   char black[2] = "B";
   char red[2] = "R";
   current->getParent(root, current->getNumber(), 0)->setRedBlack(black);
@@ -317,21 +321,35 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 
 
 
-void rotate_right(TreeNode* root, TreeNode* current)  {
-  //cout << "Current " << current->getNumber() << endl;
+TreeNode* rotate_right(TreeNode* root, TreeNode* current)  {
+  cout << "Rotate right" << endl;
+  //  cout << "Current " << current->getNumber() << endl;
   TreeNode* newcurrent = current->getLeft();
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* gp = root;
   if (parent != NULL && parent != root) {
     gp = parent->getParent(root, parent->getNumber(), 0);
   }
+  //  cout << "Test" << endl;
   // cout << "Newcurrent " << newcurrent->getNumber() << endl;
+  //if (parent != NULL) {
   //cout << "Parent " << parent->getNumber() << endl;
+  // }
   //cout << parent->getNumber() << endl;
-    if (current->getLeft() != NULL) {
-      current->setLeft(newcurrent->getRight());
+  
+  current->setLeft(newcurrent->getRight());
+  newcurrent->setLeft(newcurrent->getLeft());
   newcurrent->setRight(current);
-  // newcurrent->setLeft(parent);
+  if (parent == NULL) {
+    newcurrent->getLeft()->setLeft(NULL);
+    newcurrent->getLeft()->setRight(NULL);
+    newcurrent->getRight()->setLeft(NULL);
+    newcurrent->getRight()->setRight(NULL);
+    return newcurrent;
+  }
+  //  current->setRight(current->getLeft());
+  //  cout << "Test2" << endl;
+  //newcurrent->setLeft(newcurrent->getLeft());
   /*
   if (parent != NULL) {
 
@@ -348,10 +366,18 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
   //  newcurrent->setLeft(
   //  print(root, 0);
   //newcurrent->setLeft();
-  //cout << "STATS: " << endl;
-  //cout << "Current: " << current->getNumber() << endl;
-  //cout << "NewCurrent: " << newcurrent->getNumber() << endl;
+  cout << "STATS: " << endl;
+  cout << "Current: " << current->getNumber() << endl;
+  cout << "NewCurrent: " << newcurrent->getNumber() << endl;
+  if (parent != NULL) {
+  cout << "Parent: " << parent->getNumber() << endl;
+  }
+  if (gp != NULL) {
+    cout << "GP: " << gp->getNumber() << endl;
+  }
+
   //newcurrent->getParent(root, newcurrent->getNumber(), 0) = parent;
+  /*
   if (newcurrent->getLeft() != NULL) {
     //cout << "Test" << endl;
     TreeNode* holdparent = current->getLeft()->getParent(root, current->getLeft()->getNumber(), 0);
@@ -367,12 +393,9 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
       //cout << "Test" << endl;
       parent->setRight(newcurrent);
     }
-  
-    //    TreeNode* holdparent2 = current->getRight()->getParent(root, newcurrent->getNumber(), 0);
-    //holdparent2 = parent;
-  }
-    }/*
-    if (gp != NULL) {
+  */
+   
+    if (parent != NULL && gp != NULL) {
       //cout << gp->getNumber() << endl;
       if (gp->getNumber() >newcurrent->getNumber()) {
 	gp->setLeft(newcurrent);
@@ -381,30 +404,64 @@ void rotate_right(TreeNode* root, TreeNode* current)  {
 	gp->setRight(newcurrent);
       }
     }
-     */
+    return root;
+      // }
+     
     //    cout << "Done" << endl;
-    //print(root, 0);
+ 
     //return parent;
 }
 
-void rotate_left(TreeNode* root, TreeNode* current) {
+
+
+TreeNode* rotate_left(TreeNode* root, TreeNode* current) {
+  TreeNode* realroot = root;
+  cout << "Rotate left" << endl;
   TreeNode* newcurrent = current->getRight();
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* gp = root;
+  cout << "STATS: " << endl;
+  cout << "Current: " << current->getNumber() << endl;
+  cout << "Newcurrent: " << newcurrent->getNumber() << endl;
+  if (parent != NULL) {
+    cout << "Parent: " << parent->getNumber() << endl;
+  }
+  if (gp != NULL) {
+    cout << "Gp: " << gp->getNumber() << endl;
+  }
+
   if (parent != NULL && parent != root) {
     gp = parent->getParent(root, parent->getNumber(), 0);
     
-  }
-  if (newcurrent->getRight() != NULL) {
+  }  
   current->setRight(newcurrent->getLeft());
+  newcurrent->setRight(newcurrent->getLeft());
+  if (gp != NULL && current->getNumber() != gp->getNumber()) {
   newcurrent->setLeft(current);
+  }
+  if (gp == NULL && current->getNumber() != gp->getNumber()) {
+    // cout << "In this" << endl;
+    if (newcurrent->getLeft() != NULL) {
+    newcurrent->getLeft()->setLeft(NULL);
+    newcurrent->getLeft()->setRight(NULL);
+    }
+    if (newcurrent->getRight() != NULL) {
+    newcurrent->getRight()->setLeft(NULL);
+    newcurrent->getRight()->setRight(NULL);
+    }
+    return newcurrent;
+  }
+  //  cout << "Test" << endl;
   //newcurrent->setRight(parent);
   //TreeNode* h = newcurrent->getParent(root, newcurrent->getNumber(), 0);
   //h = parent;
+  /*
   if (current->getRight() != NULL) {
     TreeNode* holdparent = current->getRight()->getParent(root, current->getLeft()->getNumber(), 0);
     holdparent = current;
   }
+  */
+  // cout << "Test" << endl;
   if (parent != NULL) {
     if (current == parent->getRight()) {
           parent->setRight(newcurrent);
@@ -414,18 +471,32 @@ void rotate_left(TreeNode* root, TreeNode* current) {
     }
     //TreeNode* holdparent2 = current->getLeft()->getParent(root, newcurrent->getNumber(), 0);
     //holdparent2 = parent;
+  
   }
-  }
-  if (gp != NULL) {
+   
+ if (gp != NULL) {
     //cout << gp->getNumber() << endl;
   if (gp->getNumber() > newcurrent->getNumber()) {
     gp->setLeft(newcurrent);
+    gp->setRight(gp->getRight());
   }
   else if (gp->getNumber() < newcurrent->getNumber()) {
     gp->setRight(newcurrent);
+    gp->setLeft(gp->getLeft());
   }
+  
+  if (gp->getParent(root, gp->getNumber(), 0) == NULL) {
+    cout << gp->getNumber() << endl;
+    //cout << "This" << endl;
+    return gp;
   }
+
+   }
+ // cout << "Thissss" << endl;
+  return realroot;
+  //  return newcurrent;
   //  print(gp, 0);
+
 }
 
 void redblackupdate(TreeNode* root, TreeNode* parent) {
