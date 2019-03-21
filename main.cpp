@@ -217,7 +217,7 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
 
     if (root->getLeft() != NULL) {
       TreeNode* left = root->getLeft();
-      if (left->getLeft() == NULL || left->getRight() == NULL) {
+      if (left->getLeft() == NULL || left->getRight() == NULL || left->getRight() != NULL) {
   
       insertrecursive(left, newnode);
       //    cout << "Going left" << endl;
@@ -236,7 +236,7 @@ void insertrecursive(TreeNode* root, TreeNode* n) {
     //cout << "Test" << endl;
       if (root->getRight() != NULL) {
 	TreeNode* right = root->getRight();
-	if (right->getRight() == NULL || right->getLeft() == NULL) {
+	if (right->getRight() == NULL || right->getLeft() == NULL || right->getLeft() != NULL) {
        
 	insertrecursive(right, newnode);
 	//	cout << "Going right" << endl;
