@@ -93,7 +93,7 @@ TreeNode* TreeNode::getParent(TreeNode* root, int current, int willoutput) {
     }
        */
     else {
-      //   cout << "Case7" << endl;
+      return NULL;
     }
     }
     //cout << "Fallen out of while loop" << endl;
