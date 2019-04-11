@@ -22,6 +22,7 @@ void case3(TreeNode* current, TreeNode* uncle, TreeNode* root);
 TreeNode* case4(TreeNode* current, TreeNode* root);
 TreeNode* insert(TreeNode* root, int current);
 TreeNode* case4_2(TreeNode* current, TreeNode* root);
+void searchnode(TreeNode* root, int search);
 
 //add to tree
 TreeNode* insert(TreeNode* root, int current) {
@@ -408,6 +409,43 @@ TreeNode* rotate_left(TreeNode* root, TreeNode* current) {
 
 }
 
+void searchnode(TreeNode* root, int search) {
+  if (root->getNumber() == search) {
+    cout << "Number is part of tree" << endl;
+    return;
+  }
+  else {
+    while (root->getNumber() != search) {
+      if (root->getLeft() != NULL) {
+	if (root->getLeft()->getNumber() == search) {
+	  cout << "Number is part of tree" << endl;
+	  return;
+	}
+      }
+      if (root->getRight() != NULL) {
+	if (root->getRight()->getNumber() == search) {
+	  cout << "Number is part of tree" << endl;
+	  return;
+	}
+
+      }
+      if (root->getLeft() != NULL && root->getNumber() > search) {
+	root = root->getLeft();
+      }
+      else if (root->getRight() != NULL && root->getNumber() < search) {
+	root = root->getRight();
+      }
+      else {
+	cout << "Number is not part of tree" << endl;
+	return;
+      }
+    }
+    //    else {
+      cout << "Number is not part of tree" << endl;
+      return;
+      //}
+  }
+}
 
 
 
@@ -457,7 +495,7 @@ void redblackupdate(TreeNode* root, TreeNode* parent) {
 int main() {
   bool running = true;
   int response = 0;
-  cout << "Enter 1 for add, and 2 to find parent of a node" << endl;
+  cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
   cin >> response;
   TreeNode* root = NULL;
   while (running != false) {
@@ -508,7 +546,7 @@ root =	insert(root, datanum);
 
   }
   
-   cout << "Enter 1 for add, and 2 to find parent of a node" << endl;
+   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
   cin >> response;
   }
   //print
@@ -550,12 +588,19 @@ root =	insert(root, datanum);
     else {
       cout << "Parent does not exist" << endl;
     }
-   cout << "Enter 1 for add, and 2 to find parent of a node" << endl;
+   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
    cin >> response;
   }
+  
+
+  if (response == 3) {
+    //    int search;
+    cout << "What node do you want to search for?" << endl;
+    int search;
+    cin >> search;
+    searchnode(root, search);
+    cout << "Enter 1 for add, 2 to find the parent of a node, 3 to search for a node" << endl;
+    cin >>response;
   }
-  if (response != 1 && response != 2 && response != 3) {
-    running = false;
-    return 0;
   }
 }
