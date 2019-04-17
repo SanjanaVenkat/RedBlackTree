@@ -311,7 +311,7 @@ TreeNode* remove (TreeNode* realroot, TreeNode* root, TreeNode* parent, int num,
 
 //rotate right to balance, used in case 4
 TreeNode* rotate_right(TreeNode* root, TreeNode* current)  {
-  // cout << "Rotate right" << endl;
+  //cout << "Rotate right" << endl;
   bool checkroot = false;
   if (current == root) {
     checkroot = true;
@@ -320,7 +320,7 @@ TreeNode* rotate_right(TreeNode* root, TreeNode* current)  {
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* currentchild = current->getLeft();
   TreeNode* child = currentchild->getLeft();
-  TreeNode* otherchild = current->getRight();
+  TreeNode* otherchild = currentchild->getRight();
   currentchild->setRight(current);
   current->setLeft(otherchild);
   currentchild->setLeft(child);
@@ -347,7 +347,7 @@ TreeNode* rotate_left(TreeNode* root, TreeNode* current) {
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* currentchild = current->getRight();
   TreeNode* child = currentchild->getRight();
-  TreeNode* otherchild = current->getLeft();
+  TreeNode* otherchild = currentchild->getLeft();
   currentchild->setLeft(current);
   current->setRight(otherchild);
   currentchild->setRight(child);
