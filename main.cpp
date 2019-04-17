@@ -38,8 +38,8 @@ TreeNode* insert(TreeNode* root, int current) {
   //print(root, 0);
   //  cout << root->getNumber() << endl;
   //print the tree
-  cout << "Tree: " << endl;
-  print(root, 0);
+  //  cout << "Tree: " << endl;
+  //  print(root, 0);
   //cout << "Root " << root->getNumber() << endl;
   return root;
   }
@@ -475,7 +475,7 @@ void redblackupdate(TreeNode* root, TreeNode* parent) {
 int main() {
   bool running = true;
   int response = 0;
-  cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
+  cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node, and 4 to print" << endl;
   cin >> response;
   TreeNode* root = NULL;
   while (running != false) {
@@ -526,17 +526,18 @@ root =	insert(root, datanum);
 
   }
   
-   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
+   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node and 4 to print" << endl;
   cin >> response;
   }
   //print
-  /*
-  if (response == 2) {
-    cout << "Tree:" << endl;
+  
+  if (response == 4) {
+        cout << "Tree:" << endl;
      print(root, 0);
- cout << "Enter 1 for add, 2 for print, 3 for delete, and 4 to find parent" << endl;
+ cout << "Enter 1 for add, 2 for print, 3 yo search for a node, and 4 to print" << endl;
   cin >> response;
   }
+  /*
   //delete
   if (response == 3) {
     int numofnum = 0;
@@ -568,7 +569,7 @@ root =	insert(root, datanum);
     else {
       cout << "Parent does not exist" << endl;
     }
-   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node" << endl;
+   cout << "Enter 1 for add, 2 to find parent of a node, 3 to search for a node and 4 to print" << endl;
    cin >> response;
   }
   
