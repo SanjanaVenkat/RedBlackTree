@@ -116,7 +116,7 @@ TreeNode* insertrepairtree(TreeNode* root, TreeNode* current) {
   }
 //case 4 part 1
 TreeNode* case4(TreeNode* current, TreeNode* root) {
-  //cout << "Case 4" << endl;
+  // cout << "Case 4" << endl;
   TreeNode* p = current->getParent(root, current->getNumber(), 0);
   TreeNode* g = NULL;
   if (p != NULL) {
@@ -320,12 +320,25 @@ TreeNode* rotate_right(TreeNode* root, TreeNode* current)  {
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* currentchild = current->getLeft();
   TreeNode* child = currentchild->getLeft();
-  TreeNode* otherchild = currentchild->getRight();
+  TreeNode* otherchild = NULL;
+  if (currentchild != NULL) {
+  otherchild = currentchild->getRight();
+  }
+  if (currentchild != NULL) {
   currentchild->setRight(current);
+  }
+  if (current != NULL) {
   current->setLeft(otherchild);
+  }
+  if (currentchild != NULL) {
   currentchild->setLeft(child);
-  if (parent != NULL && child != NULL) {
+  }
+  // cout << "Current " << current->getNumber() << endl;
+  if (parent != NULL && currentchild != NULL && parent->getNumber() > currentchild->getNumber()) {
     parent->setLeft(currentchild);
+  }
+  else if (parent != NULL && currentchild != NULL && parent->getNumber() < currentchild->getNumber()) {
+    parent->setRight(currentchild);
   }
   if(checkroot == true) {
     return currentchild;
@@ -339,7 +352,7 @@ TreeNode* rotate_right(TreeNode* root, TreeNode* current)  {
 
 //rotate left to balance, used in case 4
 TreeNode* rotate_left(TreeNode* root, TreeNode* current) {
-  //cout << "Rotate left" << endl;
+  // cout << "Rotate left" << endl;
   bool checkroot = false;
   if (current == root) {
     checkroot = true;
@@ -347,12 +360,25 @@ TreeNode* rotate_left(TreeNode* root, TreeNode* current) {
   TreeNode* parent = current->getParent(root, current->getNumber(), 0);
   TreeNode* currentchild = current->getRight();
   TreeNode* child = currentchild->getRight();
-  TreeNode* otherchild = currentchild->getLeft();
+  TreeNode* otherchild = NULL;
+  if (currentchild != NULL) {
+  otherchild = currentchild->getLeft();
+  }
+  if (currentchild != NULL) {
   currentchild->setLeft(current);
+  }
+  if (current != NULL ) {
   current->setRight(otherchild);
+  }
+  if (currentchild != NULL) {
   currentchild->setRight(child);
-  if (parent != NULL && child != NULL) {
+  }
+  //  cout << "Current " << current->getNumber() << endl;
+  if (parent != NULL && currentchild != NULL && parent->getNumber() < currentchild->getNumber()) {
     parent->setRight(currentchild);
+  }
+  else if (parent != NULL && currentchild != NULL && parent->getNumber() > currentchild->getNumber()) {
+    parent->setLeft(currentchild);
   }
   if (checkroot == true) {
     return currentchild;
